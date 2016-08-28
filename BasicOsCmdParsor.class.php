@@ -90,5 +90,25 @@ class BasicOsCmdParsor{
     }
     return $result;
   }
+
+  public function netstat(){
+    exec('netstat -taupen', $stdout);
+    $result = array();
+    foreach($stdout as $key => $netstat){
+      if($key != 0){
+        $parsedNetstat = preg_split('#\s+#', $netstat);
+        $result[] = array('proto' => $parsedNetstat[0],
+                          'recv-q' => $parsedNetstat[1],
+                          'send-q' => $parsedNetstat[2],
+                          'local_address' => $parsedNetstat[3],
+                          'remote_address' => $parsedNetstat[4],
+                          'state' => ($parsedNetstat[0] == 'tcp' || $parsedNetstat == 'tcp6') ? $parsedNetstat[5] : '',
+                          'user' => ($parsedNetstat[0] == 'tcp' || $parsedNetstat == 'tcp6') ? $parsedNetstat[6] : $parsedNetstat[5],
+                          'inode' => ($parsedNetstat[0] == 'tcp' || $parsedNetstat == 'tcp6') ? $parsedNetstat[7] : $parsedNetstat[6],
+                          'pid' => ($parsedNetstat[0] == 'tcp' || $parsedNetstat == 'tcp6') ? $parsedNetstat[8] : $parsedNetstat[7]);
+      }
+    }
+    return $result;
+  }
 }
 ?>
