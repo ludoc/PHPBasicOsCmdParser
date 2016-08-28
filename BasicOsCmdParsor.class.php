@@ -57,5 +57,21 @@ class BasicOsCmdParsor{
     }
     return $result;
   }
+
+  public function passwdInfo(){
+    exec('cat /etc/passwd', $stdout);
+    $result = array();
+    foreach($stdout as $user){
+      $parsedUser = explode(':', $user);
+      $result[$parsedUser[0]] = array('username' => $parsedUser[0],
+                        'password' => $parsedUser[1],
+                        'uid' => $parsedUser[2],
+                        'gid' => $parsedUser[3],
+                        'user_info' => $parsedUser[4],
+                        'home' => $parsedUser[5],
+                        'shell' => $parsedUser[6]);
+    }
+    return $result;
+  }
 }
 ?>
