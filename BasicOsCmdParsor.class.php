@@ -120,5 +120,28 @@ class BasicOsCmdParsor{
     }
     return $result;
   }
+
+  public function hostnameFqdn(){
+    exec('hostname -f', $stdout);
+    return $stdout[0];
+  }
+
+  public function hostname(){
+    exec('hostname -f', $stdout);
+    return $stdout[0];
+  }
+
+  public function hosts(){
+    exec('cat /etc/hosts', $stdout);
+    foreach($stdout as $line){
+      if($line[0] != '#'){
+        $parsedLine = preg_split('#\s+#', $line, 2);
+        $names = explode(' ', $parsedLine[1]);
+        $result[] = array('ip' => $parsedLine[0],
+                          'name' => $names);
+      }
+    }
+    return $result;
+  }
 }
 ?>
