@@ -73,5 +73,22 @@ class BasicOsCmdParsor{
     }
     return $result;
   }
+
+  public function shadowInfo(){
+    exec('cat /etc/shadow', $stdout);
+    $result = array();
+    foreach($stdout as $user){
+      $parsedUser = explode(':', $user);
+      $result[$parsedUser[0]] = array('username' => $parsedUser[0],
+                        'password' => $parsedUser[1],
+                        'lastchanged' => $parsedUser[2],
+                        'min_day' => $parsedUser[3],
+                        'password_expire' => $parsedUser[4],
+                        'warn' => $parsedUser[5],
+                        'inactive' => $parsedUser[6],
+                        'account_expire' => $parsedUser[7]);
+    }
+    return $result;
+  }
 }
 ?>
