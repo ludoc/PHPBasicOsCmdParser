@@ -1,6 +1,6 @@
 <?php
 
-class BasicOsCmdParsor{
+class BasicOsCmdParser{
 
   public function df(){
     exec('df', $stdout);
