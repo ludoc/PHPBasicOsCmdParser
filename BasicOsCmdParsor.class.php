@@ -110,5 +110,15 @@ class BasicOsCmdParsor{
     }
     return $result;
   }
+
+  public function nameserver(){
+    exec('cat /etc/resolv.conf | grep nameserver', $stdout);
+    $result = array();
+    foreach($stdout as $ns){
+      $parsedNs = explode(' ', $ns);
+      $result[] = $parsedNs[1];
+    }
+    return $result;
+  }
 }
 ?>
