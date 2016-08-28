@@ -143,5 +143,18 @@ class BasicOsCmdParsor{
     }
     return $result;
   }
+
+  public function mount(){
+    exec('mount', $stdout);
+    foreach($stdout as $line){
+      $parsedLine = explode(' ', $line);
+      $attributes = explode(',', trim($parsedLine[5], '()'));
+      $result[] = array('name' => $parsedLine[0],
+                        'mount_point' => $parsedLine[2],
+                        'type' => $parsedLine[4],
+                        'attributes' => $attributes);
+    }
+   return $result;
+  }
 }
 ?>
